@@ -1,820 +1,795 @@
 <!DOCTYPE html>
 <html lang="de">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="icon" href="images/favicon.webp">
-    <link rel="stylesheet" href="planets/style.css">
-    <link rel="preload" href="fonts/Poppins.woff2" as="font" type="font/woff2" crossorigin="anonymous">
-    <link rel="preload" href="images/animation.lottie" as="fetch" crossorigin="anonymous">
-    <link rel="preload" href="lang/de.json" as="fetch" crossorigin="anonymous">
-    <link rel="preload" href="lang/en.json" as="fetch" crossorigin="anonymous">
-    <title>BWconomy</title>
-    <meta name="description"
-        content="Discover the power of BWconomy, your premier partner in navigating the digital economy landscape. With BWconomy, gain access to cutting-edge tools that allow you to seamlessly add websites and conduct comprehensive scans, empowering you to make informed decisions and stay ahead of the competition. Maximize your efficiency and profitability with our innovative solutions, designed to optimize your online presence and drive growth in today's dynamic economic environment. Trust BWconomy to be your guiding light in the complex world of digital business, providing unparalleled insights and support every step of the way.">
-    <style>
-        @font-face {
-            font-family: 'Poppins';
-            font-style: normal;
-            font-weight: 400;
-            font-display: swap;
-            src: local("Poppins"), url("fonts/Poppins.woff2") format('woff2');
-        }
-
-        body {
-            font-family: 'Poppins', arial, sans-serif;
-            margin: 0;
-            padding: 0;
-            color: #333;
-            overflow-y: scroll;
-            overflow-x: hidden;
-            hyphens: auto;
-        }
-
-        body.dark-mode {
-            background-color: #121212;
-            color: #E0E0E0;
-        }
-
-        .cookie-popup {
-			position: fixed;
-			bottom: 0;
-			left: 0;
-			width: auto;
-			color: #000;
-			border-radius: 10px;
-			background: rgba(255, 255, 255, 0.15);
-			box-shadow: 0 6px 60px 0 rgba(42, 157, 143, 0.75);
-			backdrop-filter: blur(10px);
-			-webkit-backdrop-filter: blur(10px);
-			padding: 10px 20px;
-			text-align: center;
-			z-index: 9999;
-			font-size: 18px;
-			transition: all 0.3s;
-		}
-
-		.cookie-popup button {
-			margin: 5px;
-			padding: 10px 20px;
-			font-size: 16px;
-			border: none;
-			cursor: pointer;
-			border-radius: 5px;
-			color: #fff;
-			transition: all 0.3s;
-			transform: scale(0.9);
-		}
-
-		.cookie-popup button:hover {
-			transform: scale(1.0);
-		}
-
-		.cookie-popup button.accept {
-			background-color: #2A9D8F;
-		}
-
-		.cookie-popup button.decline {
-			background-color: #ff0000;
-		}
-
-		.cookie-popup a {
-			font-size: 16px;
-			color: #344afb;
-			text-decoration: none;
-			font-weight: bold;
-			transition: all 0.3s ease-in-out;
-			background: linear-gradient(currentColor 0 0) bottom left 50%, linear-gradient(currentColor 0 0) bottom right 50%;
-			background-size: var(--underline-width, 0%) 0.1em;
-			background-repeat: no-repeat;
-			display: inline-block;
-			padding: 0.1em 0px;
-			margin: 0;
-			cursor: pointer;
-		}
-
-		.cookie-popup a:hover {
-			--underline-width: 100%;
-		}
-
-		body.dark-mode .cookie-popup {
-			background: rgba(30, 30, 30, 0.2);
-			box-shadow: 0 6px 60px 0 rgba(52, 74, 251, 0.75);
-			backdrop-filter: blur(10px);
-			-webkit-backdrop-filter: blur(10px);
-			color: #fff;
-		}
-
-		body.dark-mode .cookie-popup a {
-			color: #2A9D8F;
-		}
-
-		body.dark-mode .cookie-popup button.accept {
-			background-color: #344afb;
-		}
-
-        ::-webkit-scrollbar {
-			width: 9px;
-		}
-
-		::-webkit-scrollbar-track {
-			border: solid 3px transparent;
-		}
-
-		::-webkit-scrollbar-thumb {
-			box-shadow: inset 0 0 10px 10px #000;
-			border: solid 3px transparent;
-			border-radius: 25px;
-		}
-
-		body.dark-mode::-webkit-scrollbar-thumb {
-			box-shadow: inset 0 0 10px 10px #fff;
-		}
-
-        header {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            background: rgba(255, 255, 255, 0.15);
-            box-shadow: 0 6px 60px 0 rgba(42, 157, 143, 0.37);
-            backdrop-filter: blur(10px);
-            -webkit-backdrop-filter: blur(10px);
-            color: #000;
-            padding: 20px 0;
-            text-align: center;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            transition: all 0.3s;
-            z-index: 2;
-        }
-
-        body.dark-mode header {
-            box-shadow: 0 6px 60px 0 rgba(31, 38, 135, 0.37);
-            background-color: transparent;
-            color: #fff;
-        }
-
-        header .logo {
-            font-size: 1.5em;
-            font-weight: 600;
-            flex: 1;
-        }
-
-        header .logo span {
-            user-select: none;
-            cursor: pointer;
-        }
-
-        .language {
-            position: absolute;
-            left: 23px;
-        }
-
-        #language {
-            cursor: pointer;
-            font-size: 20px;
-        }
-
-        .container {
-            width: 90%;
-            max-width: 1200px;
-            margin: 0 auto;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            color: #333;
-            gap: 50px;
-        }
-
-        nav ul {
-            list-style: none;
-            display: flex;
-            margin: 0;
-            padding: 0;
-        }
-
-        nav ul li {
-            margin: 0 10px;
-        }
-
-        nav ul li a {
-            text-decoration: none;
-            color: #333;
-            font-weight: 600;
-        }
-
-        .btn-cta {
-            appearance: none;
-            background-color: #fff;
-            border: 2px solid #1A1A1A;
-            border-radius: 15px;
-            box-sizing: border-box;
-            color: #3B3B3B;
-            cursor: pointer;
-            display: inline-block;
-            font-family: Roobert, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
-            font-size: 16px;
-            font-weight: 600;
-            line-height: normal;
-            margin: 0;
-            min-width: 0;
-            outline: none;
-            padding: 10px;
-            text-align: center;
-            text-decoration: none;
-            transition: all 600ms cubic-bezier(.23, 1, 0.32, 1);
-            user-select: none;
-            -webkit-user-select: none;
-            touch-action: manipulation;
-            will-change: transform;
-            width: 136px;
-        }
-
-        .btn-cta:disabled {
-            pointer-events: none;
-        }
-
-        .btn-cta:hover {
-            color: #fff;
-            background-color: #1A1A1A;
-            border: 2px solid #fff;
-        }
-
-        .btn-cta:active {
-            box-shadow: none;
-            transform: translateY(0);
-        }
-
-        .hero {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            min-height: 100dvh;
-        }
-
-        .hero-text {
-            max-width: 50%;
-        }
-
-        .hero-text h1 {
-            font-size: 2.5em;
-            margin-bottom: 20px;
-        }
-
-        .hero-text h1, .hero-text p, .container h2, .container h3, .container p {
-            transition: color 0.3s;
-        }
-
-        body.dark-mode .hero-text h1, body.dark-mode .hero-text p, body.dark-mode .container h2, body.dark-mode .container h3, body.dark-mode .container p {
-            color: #E0E0E0;
-        }
-
-        .hero img {
-            max-width: 45%;
-            height: auto;
-            border-radius: 15px;
-        }
-
-        .end h1 {
-            text-align: center;
-            font-size: 40px;
-        }
-
-        .steps {
-            text-align: center;
-        }
-		
-		.step {
-		transition: all 0.3s;
-		}
-		
-		.step h3 {
-				font-size: 24px;
-		}
-
-        #privacy {
-            text-align: right;
-            margin: 10px;
-        }
-
-        #privacy a {
-			text-decoration: none;
-			font-weight: bold;
-			transition: all 0.3s, background 0.3s ease-in-out;
-			background: linear-gradient(currentColor 0 0) bottom left 50%, linear-gradient(currentColor 0 0) bottom right 50%;
-			background-size: var(--underline-width, 0%) 0.15em;
-			background-repeat: no-repeat;
-			display: inline-block;
-			padding: 0.1em 0px;
-			margin: 0;
-			cursor: pointer;
-			color: #4b4b4b;
-		}
-
-		body.dark-mode #privacy a {
-			color: #E0E0E0;
-		}
-
-		#privacy a:hover {
-			--underline-width: 100%;
-		}
-
-        .second {
-            flex-direction: column;
-            align-items: center;
-            gap: 0px;
-        }
-		
-		.second h2 {
-		font-size: 2em;
-		}
-		
-		.tilt-in-fwd-tl {
-	animation: tilt-in-fwd-tl 1s ease-out both;
-}
-
-.tilt-in-fwd-tr {
-	animation: tilt-in-fwd-tr 1s ease-out both;
-}
-
-@keyframes tilt-in-fwd-tl {
-  0% {
-    transform: rotateY(-20deg) rotateX(35deg) translate(-300px, -300px) skew(35deg, -10deg);
-    opacity: 0;
-  }
-  100% {
-    transform: rotateY(0) rotateX(0deg) translate(0, 0) skew(0deg, 0deg);
-    opacity: 1;
-  }
-}
-
-@keyframes tilt-in-fwd-tr {
-  0% {
-    transform: rotateY(20deg) rotateX(35deg) translate(300px, -300px) skew(-35deg, 10deg);
-    opacity: 0;
-  }
-  100% {
-    transform: rotateY(0) rotateX(0deg) translate(0, 0) skew(0deg, 0deg);
-    opacity: 1;
-  }
-}
-
-.features-section {
-            padding: 50px 0;
-        }
-
-        .features-section .feature {
-            text-align: center;
-            margin: 10px;
-			padding: 5px;
-			border-radius: 15px;
-            transition: background 0.3s, box-shadow 0.3s, transform 0.3s;
-        }
-		
-		.step {
-			border-radius: 15px;
-		}
-
-        body.dark-mode .features-section .feature:hover, body.dark-mode .step:hover {
-            box-shadow: 0 6px 60px 0 rgba(31, 38, 135, 0.37);
-			background: #121212;
-            transform: translateY(-10px);
-        }
-		
-		.features-section .feature:hover, .step:hover {
-			box-shadow: 0 6px 60px 0 rgba(42, 157, 143, 0.37);
-            transform: translateY(-10px);
-        }
-
-        .features-section h2 {
-            text-align: center;
-            margin: 26.56px;
-            font-size: 2em;
-        }
-
-        .features-section .feature h3 {
-            font-size: 1.5em;
-            margin: 10px 0px;
-        }
-		
-		.features-section .container {
-		flex-direction: column;
-		gap: 0px;
-		}
-
-        .got-interested-section {
-            padding: 81px 0;
-			padding-top: 0px;
-            text-align: center;
-        }
-
-        .got-interested-section h2 {
-            margin-bottom: 20px;
-            font-size: 2em;
-        }
-
-        .got-interested-section .btn-cta {
-            margin-top: 20px;
-        }
-		
-		.imageSliderContainer {
-  position: relative;
-  width: 100%;
-  max-width: 900px;
-  height: 0;
-  padding-bottom: 40%;
-  border: 2px solid white;
-}
-
-.imageSliderContainer .img {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-size: cover;
-}
-
-.imageSliderContainer .background-img {
-  background-image: url("images/analysis-before.png");
-}
-
-.imageSliderContainer .foreground-img {
-  background-image: url("images/analysis.png");
-  width: 15%;
-}
-
-.imageSliderContainer .slider {
-  position: absolute;
-  -webkit-appearance: none;
-  appearance: none;
-  width: 100%;
-  height: 100%;
-  background: rgba(242, 242, 242, 0.3);
-  outline: none;
-  margin: 0;
-  transition: all 0.2s;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  cursor: grab;
-}
-
-.imageSliderContainer .slider:hover {
-  background: rgba(242, 242, 242, 0.1);
-}
-
-.imageSliderContainer .slider::-webkit-slider-thumb {
-  -webkit-appearance: none;
-  appearance: none;
-  width: 6px;
-  height: 100%;
-  background: white;
-  cursor: pointer;
-}
-
-.imageSliderContainer .slider::-moz-range-thumb {
-  width: 6px;
-  height: 100%;
-  background: white;
-  cursor: pointer;
-}
-
-.imageSliderContainer .slider-button {
-  pointer-events: none;
-  position: absolute;
-  width: 30px;
-  height: 30px;
-  border-radius: 50%;
-  background-color: black;
-  left: calc(15% - 15px);
-  top: calc(50% - 15px);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-.imageSliderContainer .slider-button:after {
-  content: "";
-  padding: 3px;
-  display: inline-block;
-  border: solid #fff;
-  border-width: 0 2px 2px 0;
-  transform: rotate(-45deg);
-}
-
-.imageSliderContainer .slider-button:before {
-  content: "";
-  padding: 3px;
-  display: inline-block;
-  border: solid #fff;
-  border-width: 0 2px 2px 0;
-  transform: rotate(135deg);
-}
-
-.comp .container {
-	flex-direction: row;
-}
-
-.comp {
-	margin-top: 50px;
-}
-
-
-        @media (max-width: 768px) {
-            .container {
-                flex-direction: column;
-                align-items: center;
-                gap: 0px;
-            }
-			
-			.comp .container {
-	flex-direction: column;
-}
-
-.imageSliderContainer {
-	padding-bottom: 66.67%;
-}
-			
-					.tilt-in-fwd-tl {
-	animation: none;
-}
-
-.tilt-in-fwd-tr {
-	animation: none;
-}
-			
-			#landingMain {
-				margin-top: 10px;
-			}
-
-            .container h2 {
-                margin-bottom: 0;
-            }
-
-            nav ul {
-                flex-direction: column;
-                align-items: center;
-            }
-
-            nav ul li {
-                margin: 10px 0;
-            }
-
-            .hero {
-                flex-direction: column;
-                text-align: center;
-                margin-top: 80px;
-            }
-
-            .hero-text,
-            .hero img {
-                max-width: 100%;
-            }
-
-            .hero img {
-                margin-top: 20px;
-            }
-
-            .btn-cta {
-                padding: 15px 30px;
-                font-size: 1.2em;
-            }
-
-            h1 {
-                font-size: 2em;
-            }
-
-            h2 {
-                font-size: 2em;
-            }
-        }
-    </style>
-	<script src="https://unpkg.com/scrollreveal"></script>
-    <script src="https://unpkg.com/@dotlottie/player-component@latest/dist/dotlottie-player.mjs" type="module"></script> 
-</head>
-<body>
-    <div class="cookie-popup start" id="cookie-popup">
-		<p id="cookies"></p>
-		<button id="accept" class="accept" onclick="acceptCookies()"></button>
-		<button id="decline" class="decline" onclick="declineCookies()"></button>
-		<p><a id="privacy-policy" onclick="window.location.href = 'privacy-policy'"></a></p>
-	</div>
-    <header>
-        <div class="language"><span onclick="changeLanguage()" id="language">EN</span></div>
-        <div class="logo"><span id="logo" onclick="window.location.reload()">BWconomy</span></div>
-        <div id="container"> <span class="mode" id="darkmode" role="button" tabIndex="0" onClick="toggleDarkMode()"
-                aria-label="darkmode button">
-                <div class="darkmode_icon"> <span class="ray"></span> <span class="ray"></span> <span
-                        class="ray"></span> <span class="ray"></span> <span class="ray"></span> <span
-                        class="ray"></span> <span class="ray"></span> <span class="ray"></span> </div>
+   <head>
+      <meta charset="UTF-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <link rel="icon" href="images/favicon.webp">
+      <link rel="stylesheet" href="planets/style.css">
+      <link rel="preload" href="images/analysis.webp" as="image">
+      <link rel="preload" href="images/analysis-before.webp" as="image">
+      <link rel="preload" href="fonts/Poppins.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+      <link rel="preload" href="images/animation.lottie" as="fetch" crossorigin="anonymous">
+      <link rel="preload" href="lang/de.json" as="fetch" crossorigin="anonymous">
+      <link rel="preload" href="lang/en.json" as="fetch" crossorigin="anonymous">
+      <title>BWconomy</title>
+      <meta name="description"
+         content="Discover the power of BWconomy, your premier partner in navigating the digital economy landscape. With BWconomy, gain access to cutting-edge tools that allow you to seamlessly add websites and conduct comprehensive scans, empowering you to make informed decisions and stay ahead of the competition. Maximize your efficiency and profitability with our innovative solutions, designed to optimize your online presence and drive growth in today's dynamic economic environment. Trust BWconomy to be your guiding light in the complex world of digital business, providing unparalleled insights and support every step of the way.">
+      <style>
+         @font-face {
+         font-family: 'Poppins';
+         font-style: normal;
+         font-weight: 400;
+         font-display: swap;
+         src: local("Poppins"), url("fonts/Poppins.woff2") format('woff2');
+         }
+         body {
+         font-family: 'Poppins', arial, sans-serif;
+         margin: 0;
+         padding: 0;
+         color: #333;
+         overflow-y: scroll;
+         overflow-x: hidden;
+         hyphens: auto;
+         }
+         body.dark-mode {
+         background-color: #121212;
+         color: #E0E0E0;
+         }
+         .cookie-popup {
+         position: fixed;
+         bottom: 0;
+         left: 0;
+         width: auto;
+         color: #000;
+         border-radius: 10px;
+         background: rgba(255, 255, 255, 0.15);
+         box-shadow: 0 6px 60px 0 rgba(42, 157, 143, 0.75);
+         backdrop-filter: blur(10px);
+         -webkit-backdrop-filter: blur(10px);
+         padding: 10px 20px;
+         text-align: center;
+         z-index: 9999;
+         font-size: 18px;
+         transition: all 0.3s;
+         }
+         .cookie-popup button {
+         margin: 5px;
+         padding: 10px 20px;
+         font-size: 16px;
+         border: none;
+         cursor: pointer;
+         border-radius: 5px;
+         color: #fff;
+         transition: all 0.3s;
+         transform: scale(0.9);
+         }
+         .cookie-popup button:hover {
+         transform: scale(1.0);
+         }
+         .cookie-popup button.accept {
+         background-color: #2A9D8F;
+         }
+         .cookie-popup button.decline {
+         background-color: #ff0000;
+         }
+         .cookie-popup a {
+         font-size: 16px;
+         color: #344afb;
+         text-decoration: none;
+         font-weight: bold;
+         transition: all 0.3s ease-in-out;
+         background: linear-gradient(currentColor 0 0) bottom left 50%, linear-gradient(currentColor 0 0) bottom right 50%;
+         background-size: var(--underline-width, 0%) 0.1em;
+         background-repeat: no-repeat;
+         display: inline-block;
+         padding: 0.1em 0px;
+         margin: 0;
+         cursor: pointer;
+         }
+         .cookie-popup a:hover {
+         --underline-width: 100%;
+         }
+         body.dark-mode .cookie-popup {
+         background: rgba(30, 30, 30, 0.2);
+         box-shadow: 0 6px 60px 0 rgba(52, 74, 251, 0.75);
+         backdrop-filter: blur(10px);
+         -webkit-backdrop-filter: blur(10px);
+         color: #fff;
+         }
+         body.dark-mode .cookie-popup a {
+         color: #2A9D8F;
+         }
+         body.dark-mode .cookie-popup button.accept {
+         background-color: #344afb;
+         }
+         ::-webkit-scrollbar {
+         width: 9px;
+         }
+         ::-webkit-scrollbar-track {
+         border: solid 3px transparent;
+         }
+         ::-webkit-scrollbar-thumb {
+         box-shadow: inset 0 0 10px 10px #000;
+         border: solid 3px transparent;
+         border-radius: 25px;
+         }
+         body.dark-mode::-webkit-scrollbar-thumb {
+         box-shadow: inset 0 0 10px 10px #fff;
+         }
+         header {
+         position: fixed;
+         top: 0;
+         left: 0;
+         width: 100%;
+         background: rgba(255, 255, 255, 0.15);
+         box-shadow: 0 6px 60px 0 rgba(42, 157, 143, 0.37);
+         backdrop-filter: blur(10px);
+         -webkit-backdrop-filter: blur(10px);
+         color: #000;
+         padding: 20px 0;
+         text-align: center;
+         display: flex;
+         justify-content: center;
+         align-items: center;
+         transition: all 0.3s;
+         z-index: 2;
+         }
+         body.dark-mode header {
+         box-shadow: 0 6px 60px 0 rgba(31, 38, 135, 0.37);
+         background-color: transparent;
+         color: #fff;
+         }
+         header .logo {
+         font-size: 1.5em;
+         font-weight: 600;
+         flex: 1;
+         }
+         header .logo span {
+         user-select: none;
+         cursor: pointer;
+         }
+         .language {
+         position: absolute;
+         left: 23px;
+         }
+         #language {
+         cursor: pointer;
+         font-size: 20px;
+         }
+         .container {
+         width: 90%;
+         max-width: 1200px;
+         margin: 0 auto;
+         display: flex;
+         justify-content: space-between;
+         align-items: center;
+         color: #333;
+         gap: 50px;
+         }
+         nav ul {
+         list-style: none;
+         display: flex;
+         margin: 0;
+         padding: 0;
+         }
+         nav ul li {
+         margin: 0 10px;
+         }
+         nav ul li a {
+         text-decoration: none;
+         color: #333;
+         font-weight: 600;
+         }
+         .btn-cta {
+         appearance: none;
+         background-color: #fff;
+         border: 2px solid #1A1A1A;
+         border-radius: 15px;
+         box-sizing: border-box;
+         color: #3B3B3B;
+         cursor: pointer;
+         display: inline-block;
+         font-family: Roobert, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+         font-size: 16px;
+         font-weight: 600;
+         line-height: normal;
+         margin: 0;
+         min-width: 0;
+         outline: none;
+         padding: 10px;
+         text-align: center;
+         text-decoration: none;
+         transition: all 600ms cubic-bezier(.23, 1, 0.32, 1);
+         user-select: none;
+         -webkit-user-select: none;
+         touch-action: manipulation;
+         will-change: transform;
+         width: 136px;
+         }
+         .btn-cta:disabled {
+         pointer-events: none;
+         }
+         .btn-cta:hover {
+         color: #fff;
+         background-color: #1A1A1A;
+         border: 2px solid #fff;
+         }
+         .btn-cta:active {
+         box-shadow: none;
+         transform: translateY(0);
+         }
+         .hero {
+         display: flex;
+         align-items: center;
+         justify-content: space-between;
+         min-height: 100dvh;
+         animation: heroStart 2s forwards;
+         }
+         @keyframes heroStart {
+         0% {
+         opacity: 0;
+         }
+         100% {
+         opacity: 1;
+         }
+         }
+         .hero-text {
+         max-width: 50%;
+         }
+         .hero-text h1 {
+         font-size: 2.5em;
+         margin-bottom: 20px;
+         }
+         .hero-text h1, .hero-text p, .container h2, .container h3, .container p {
+         transition: color 0.3s;
+         }
+         body.dark-mode .hero-text h1, body.dark-mode .hero-text p, body.dark-mode .container h2, body.dark-mode .container h3, body.dark-mode .container p {
+         color: #E0E0E0;
+         }
+         .hero img {
+         max-width: 45%;
+         height: auto;
+         border-radius: 15px;
+         }
+         .end h1 {
+         text-align: center;
+         font-size: 40px;
+         }
+         .steps {
+         text-align: center;
+         }
+         .step {
+         transition: all 0.3s;
+         }
+         .step h3 {
+         font-size: 24px;
+         }
+         #privacy {
+         text-align: right;
+         margin: 10px;
+         }
+         #privacy a {
+         text-decoration: none;
+         font-weight: bold;
+         transition: all 0.3s, background 0.3s ease-in-out;
+         background: linear-gradient(currentColor 0 0) bottom left 50%, linear-gradient(currentColor 0 0) bottom right 50%;
+         background-size: var(--underline-width, 0%) 0.15em;
+         background-repeat: no-repeat;
+         display: inline-block;
+         padding: 0.1em 0px;
+         margin: 0;
+         cursor: pointer;
+         color: #4b4b4b;
+         }
+         body.dark-mode #privacy a {
+         color: #E0E0E0;
+         }
+         #privacy a:hover {
+         --underline-width: 100%;
+         }
+         .second {
+         flex-direction: column;
+         align-items: center;
+         gap: 0px;
+         }
+         .second h2 {
+         font-size: 2em;
+         }
+         .tilt-in-fwd-tl {
+         animation: tilt-in-fwd-tl 1s ease-out both;
+         }
+         .tilt-in-fwd-tr {
+         animation: tilt-in-fwd-tr 1s ease-out both;
+         }
+         @keyframes tilt-in-fwd-tl {
+         0% {
+         transform: rotateY(-20deg) rotateX(35deg) translate(-300px, -300px) skew(35deg, -10deg);
+         opacity: 0;
+         }
+         100% {
+         transform: rotateY(0) rotateX(0deg) translate(0, 0) skew(0deg, 0deg);
+         opacity: 1;
+         }
+         }
+         @keyframes tilt-in-fwd-tr {
+         0% {
+         transform: rotateY(20deg) rotateX(35deg) translate(300px, -300px) skew(-35deg, 10deg);
+         opacity: 0;
+         }
+         100% {
+         transform: rotateY(0) rotateX(0deg) translate(0, 0) skew(0deg, 0deg);
+         opacity: 1;
+         }
+         }
+         .features-section {
+         padding: 50px 0;
+         }
+         .features-section .feature {
+         text-align: center;
+         margin: 10px;
+         padding: 5px;
+         border-radius: 15px;
+         transition: background 0.3s, box-shadow 0.3s, transform 0.3s;
+         }
+         .step {
+         border-radius: 15px;
+         }
+         body.dark-mode .features-section .feature:hover, body.dark-mode .step:hover {
+         box-shadow: 0 6px 60px 0 rgba(31, 38, 135, 0.37);
+         background: #121212;
+         transform: translateY(-10px);
+         }
+         .features-section .feature:hover, .step:hover {
+         box-shadow: 0 6px 60px 0 rgba(42, 157, 143, 0.37);
+         transform: translateY(-10px);
+         }
+         .features-section h2 {
+         text-align: center;
+         margin: 26.56px;
+         font-size: 2em;
+         }
+         .features-section .feature h3 {
+         font-size: 1.5em;
+         margin: 10px 0px;
+         }
+         .features-section .container {
+         flex-direction: column;
+         gap: 0px;
+         }
+         .got-interested-section {
+         padding: 81px 0;
+         padding-top: 0px;
+         text-align: center;
+         overflow: hidden;
+         height: 340px;
+         }
+         .got-interested-section h2 {
+         margin-bottom: 20px;
+         font-size: 2em;
+         }
+         .got-interested-section .btn-cta {
+         margin-top: 20px;
+         }
+         .got-interested-section img {
+         position: absolute;
+         left: 50%;
+         transform: translate(-27%, 16.4%);
+         z-index: -1;
+         pointer-events: none;
+         }
+         .got-interested-section .hand {
+         z-index: 1;
+         }
+         .imageSliderContainer {
+         position: relative;
+         width: 100%;
+         max-width: 900px;
+         height: 0;
+         padding-bottom: 40%;
+         border: 2px solid white;
+         }
+         .imageSliderContainer .img {
+         position: absolute;
+         top: 0;
+         left: 0;
+         width: 100%;
+         height: 100%;
+         background-size: cover;
+         }
+         .imageSliderContainer .background-img {
+         background-image: url("images/analysis-before.webp");
+         }
+         .imageSliderContainer .foreground-img {
+         background-image: url("images/analysis.webp");
+         width: 15%;
+         }
+         .imageSliderContainer .slider {
+         position: absolute;
+         -webkit-appearance: none;
+         appearance: none;
+         width: 100%;
+         height: 100%;
+         background: rgba(242, 242, 242, 0.3);
+         outline: none;
+         margin: 0;
+         transition: all 0.2s;
+         display: flex;
+         justify-content: center;
+         align-items: center;
+         cursor: grab;
+         }
+         .imageSliderContainer .slider:hover {
+         background: rgba(242, 242, 242, 0.1);
+         }
+         .imageSliderContainer .slider::-webkit-slider-thumb {
+         -webkit-appearance: none;
+         appearance: none;
+         width: 6px;
+         height: 100%;
+         background: white;
+         cursor: pointer;
+         }
+         .imageSliderContainer .slider::-moz-range-thumb {
+         width: 6px;
+         height: 100%;
+         background: white;
+         cursor: pointer;
+         }
+         .imageSliderContainer .slider-button {
+         pointer-events: none;
+         position: absolute;
+         width: 30px;
+         height: 30px;
+         border-radius: 50%;
+         background-color: black;
+         left: calc(15% - 15px);
+         top: calc(50% - 15px);
+         display: flex;
+         justify-content: center;
+         align-items: center;
+         }
+         .imageSliderContainer .slider-button:after {
+         content: "";
+         padding: 3px;
+         display: inline-block;
+         border: solid #fff;
+         border-width: 0 2px 2px 0;
+         transform: rotate(-45deg);
+         }
+         .imageSliderContainer .slider-button:before {
+         content: "";
+         padding: 3px;
+         display: inline-block;
+         border: solid #fff;
+         border-width: 0 2px 2px 0;
+         transform: rotate(135deg);
+         }
+         .comp .container {
+         flex-direction: row;
+         }
+         .comp {
+         margin-top: 50px;
+         }
+         .gradientText {
+         background: linear-gradient(165deg, rgba(219,219,219,1) 0%, rgba(52,74,251,1) 99%);
+         -webkit-background-clip: text;
+         -webkit-text-fill-color: transparent;
+         font-size: 44px;
+         }
+         @media (max-width: 768px) {
+         .container {
+         flex-direction: column;
+         align-items: center;
+         gap: 0px;
+         }
+         .comp .container {
+         flex-direction: column;
+         }
+         .imageSliderContainer {
+         padding-bottom: 66.67%;
+         }
+         .tilt-in-fwd-tl {
+         animation: none;
+         }
+         .tilt-in-fwd-tr {
+         animation: none;
+         }
+         #landingMain {
+         margin-top: 10px;
+         }
+         .container h2 {
+         margin-bottom: 0;
+         }
+         nav ul {
+         flex-direction: column;
+         align-items: center;
+         }
+         nav ul li {
+         margin: 10px 0;
+         }
+         .hero {
+         flex-direction: column;
+         text-align: center;
+         margin-top: 80px;
+         min-height: calc(100dvh - 76.8px);
+         }
+         .hero-text,
+         .hero img {
+         max-width: 100%;
+         }
+         .hero img {
+         margin-top: 20px;
+         }
+         .btn-cta {
+         padding: 15px 30px;
+         font-size: 1.2em;
+         width: auto;
+         }
+         h1 {
+         font-size: 2em;
+         }
+         h2 {
+         font-size: 2em;
+         }
+         }
+      </style>
+      <script src="https://unpkg.com/scrollreveal"></script>
+      <script src="https://unpkg.com/@dotlottie/player-component@latest/dist/dotlottie-player.mjs" type="module"></script> 
+   </head>
+   <body>
+      <div class="cookie-popup start" id="cookie-popup">
+         <p id="cookies"></p>
+         <button id="accept" class="accept" onclick="acceptCookies()"></button>
+         <button id="decline" class="decline" onclick="declineCookies()"></button>
+         <p><a id="privacy-policy" onclick="window.location.href = 'privacy-policy'"></a></p>
+      </div>
+      <header>
+         <div class="language"><span onclick="changeLanguage()" id="language">EN</span></div>
+         <div class="logo"><span id="logo" onclick="window.location.reload()">BWconomy</span></div>
+         <div id="container">
+            <span class="mode" id="darkmode" role="button" tabIndex="0" onClick="toggleDarkMode()"
+               aria-label="darkmode button">
+               <div class="darkmode_icon"> <span class="ray"></span> <span class="ray"></span> <span
+                  class="ray"></span> <span class="ray"></span> <span class="ray"></span> <span
+                  class="ray"></span> <span class="ray"></span> <span class="ray"></span> </div>
             </span>
-        </div>
-    </header>
-    <section id="home" class="hero">
-        <div class="container">
+         </div>
+      </header>
+      <section id="home" class="hero animateHero">
+         <div class="container">
             <div class="hero-text tilt-in-fwd-tl">
-                <h1 id="landingMain"></h1>
-                <p id="landingBelowMain"></p>
-                <a id="landingStart" onclick="window.location.href = 'app'" class="btn-cta"></a>
+               <h1 id="landingMain"></h1>
+               <p id="landingBelowMain"></p>
+               <a id="landingStart" onclick="window.location.href = 'app'" class="btn-cta"></a>
             </div>
-			<dotlottie-player class="hero-text tilt-in-fwd-tr" src="images/animation.lottie" background="transparent" speed="1" loop autoplay></dotlottie-player>
-        </div>
-    </section>
-    <section id="how-it-works" class="how-it-works">
-        <div class="container second">
+            <dotlottie-player class="hero-text tilt-in-fwd-tr" src="images/animation.lottie" background="transparent" speed="1" loop autoplay></dotlottie-player>
+         </div>
+      </section>
+      <section id="how-it-works" class="how-it-works">
+         <div class="container second">
             <h2 class="animate" id="landingHowWorks"></h2>
             <div class="steps">
-                <div class="step animate">
-                    <h3 id="landingStepOne"></h3>
-                    <p id="landingStepOneBelow"></p>
-                </div>
-                <div class="step animate">
-                    <h3 id="landingStepTwo"></h3>
-                    <p id="landingStepTwoBelow"></p>
-                </div>
-                <div class="step animate">
-                    <h3 id="landingStepThree"></h3>
-                    <p id="landingStepThreeBelow"></p>
-                </div>
+               <div class="step animate">
+                  <h3 id="landingStepOne"></h3>
+                  <p id="landingStepOneBelow"></p>
+               </div>
+               <div class="step animate">
+                  <h3 id="landingStepTwo"></h3>
+                  <p id="landingStepTwoBelow"></p>
+               </div>
+               <div class="step animate">
+                  <h3 id="landingStepThree"></h3>
+                  <p id="landingStepThreeBelow"></p>
+               </div>
             </div>
-        </div>
-    </section>
-	
-	<section class="comp">
-<div class="container">
-  <div class="animate">
-        <h2 id="changeHead"></h2>
-				<p id="changeText"></p>
+         </div>
+      </section>
+      <section class="comp">
+         <div class="container animate">
+            <div>
+               <h2 id="changeHead"></h2>
+               <p id="changeText"></p>
             </div>
-      <div class='imageSliderContainer animate'>
-    <div class='img background-img'></div>
-    <div class='img foreground-img'></div>
-    <input type="range" min="1" max="100" value="15" class="slider" name='slider' id="slider">
-    <div class='slider-button'></div>
-  </div>
-  </div>
-  </section>
-	<section class="features-section" id="features">
-        <div class="container">
+            <div class='imageSliderContainer'>
+               <div class='img background-img'></div>
+               <div class='img foreground-img'></div>
+               <input type="range" min="1" max="100" value="15" class="slider" name='slider' id="slider" aria-label="slider">
+               <div class='slider-button'></div>
+            </div>
+         </div>
+      </section>
+      <section class="features-section" id="features">
+         <div class="container">
             <h2 id="featuresHead" class="animate"></h2>
             <div class="feature animate">
-                <h3 id="featuresHeader"></h3>
-                <p id="featuresText"></p>
+               <h3 id="featuresHeader"></h3>
+               <p id="featuresText"></p>
             </div>
             <div class="feature animate">
-                <h3 id="featuresHeaderTwo"></h3>
-                <p id="featuresTextTwo"></p>
+               <h3 id="featuresHeaderTwo"></h3>
+               <p id="featuresTextTwo"></p>
             </div>
             <div class="feature animate">
-                <h3 id="featuresHeaderThree"></h3>
-                <p id="featuresTextThree"></p>
+               <h3 id="featuresHeaderThree"></h3>
+               <p id="featuresTextThree"></p>
             </div>
-        </div>
-    </section>
-
-    <section class="got-interested-section animate">
-        <h2 id="interested"></h2>
-        <a id="landingStart2" onclick="window.location.href = 'app'" class="btn-cta"></a>
-    </section>
-                <p id="privacy"><a id="privacyPolicy" onclick="window.location.href = 'privacy-policy'"></a></p>
-    <script>
-	        if (localStorage.getItem('dark-mode') === 'dark') {
-			document.body.classList.add('dark-mode');
-			document.body.dataset.theme = localStorage.getItem('dark-mode')
-		} else if(!localStorage.getItem('dark-mode')) {
+         </div>
+      </section>
+      <section class="got-interested-section animate">
+         <h2 id="interested"></h2>
+         <a id="landingStart2" onclick="window.location.href = 'app'" class="btn-cta"></a>
+         <img draggable="false" src="images/girl.webp" alt="girl">
+         <img draggable="false" class="hand" src="images/girl-hand.webp" alt="girl">
+      </section>
+      <p id="privacy"><a id="privacyPolicy" onclick="window.location.href = 'privacy-policy'"></a></p>
+      <script>
+         if (localStorage.getItem('dark-mode') === 'dark') {
+         document.body.classList.add('dark-mode');
+         document.body.dataset.theme = localStorage.getItem('dark-mode')
+         } else if(!localStorage.getItem('dark-mode')) {
             localStorage.setItem('dark-mode', 'dark');
-			document.body.classList.add('dark-mode');
-			document.body.dataset.theme = localStorage.getItem('dark-mode')
-        }
-		ScrollReveal().reveal('.animate', { delay: 100, interval: 100 });
-		var consent = localStorage.getItem('cookie_consent');
-		if (consent === 'accepted' || consent === 'declined') {
-			document.getElementById('cookie-popup').style.display = 'none';
-		}
-
-        function toggleDarkMode() {
-			document.body.classList.toggle('dark-mode');
-			if (document.body.classList.contains('dark-mode')) {
-				localStorage.setItem('dark-mode', 'dark');
-			} else {
-				localStorage.setItem('dark-mode', 'light');
-			}
-			document.body.dataset.theme = localStorage.getItem('dark-mode')
-		}
-
-        let languageData = {};
-
-		function fetchLanguageData(language) {
-			return fetch(`${language}.json`)
-				.then(response => {
-					if (!response.ok) {
-						throw new Error(`HTTP error! status: ${response.status}`);
-					}
-					return response.json();
-				})
-				.then(data => {
-					languageData = data;
-					return data;
-				})
-				.catch(error => console.error('Error fetching language file:', error));
-		}
-
-		function updateContent(data) {
-			document.getElementById('logo').innerHTML = data.logo;
-			document.getElementById('privacyPolicy').innerHTML = data["privacy-policy"];
-			document.getElementById('landingMain').innerHTML = data.landingMain;
-			document.getElementById('landingBelowMain').innerHTML = data.landingBelowMain;
-			document.getElementById('landingStart').innerHTML = data.landingStart;
-			document.getElementById('landingStart2').innerHTML = data.landingStart;
-			document.getElementById('landingHowWorks').innerHTML = data.landingHowWorks;
-			document.getElementById('landingStepOne').innerHTML = data.landingStepOne;
-			document.getElementById('landingStepOneBelow').innerHTML = data.landingStepOneBelow;
-			document.getElementById('landingStepTwo').innerHTML = data.landingStepTwo;
-			document.getElementById('landingStepTwoBelow').innerHTML = data.landingStepTwoBelow;
-			document.getElementById('landingStepThree').innerHTML = data.landingStepThree;
-			document.getElementById('landingStepThreeBelow').innerHTML = data.landingStepThreeBelow;
-			document.getElementById('logo').innerHTML = data.logo;
-			document.getElementById('cookies').innerHTML = data.cookies;
-			document.getElementById('accept').textContent = data.accept;
-			document.getElementById('decline').textContent = data.decline;
-			document.getElementById('featuresHead').textContent = data.featuresHead;
-			document.getElementById('featuresHeader').textContent = data.featuresHeader;
-			document.getElementById('featuresText').textContent = data.featuresText;
-			document.getElementById('featuresHeaderTwo').textContent = data.featuresHeaderTwo;
-			document.getElementById('featuresTextTwo').textContent = data.featuresTextTwo;
-			document.getElementById('featuresHeaderThree').textContent = data.featuresHeaderThree;
-			document.getElementById('featuresTextThree').textContent = data.featuresTextThree;
-			document.getElementById('changeHead').textContent = data.changeHead;
-			document.getElementById('changeText').textContent = data.changeText;
-			document.getElementById('interested').textContent = data.interested;
-		}
-
-		var userLang = navigator.language || navigator.userLanguage;
-
-		var lang = userLang.startsWith('de') ? 'lang/de' : 'lang/en';
-
-        let preferredLang = localStorage.getItem('preferredLang');
-
-		var langText = document.getElementById("language");
-
-		if (!preferredLang) {
-			preferredLang = userLang;
-			localStorage.setItem('preferredLang', preferredLang);
-		} else {
-			lang = preferredLang.startsWith('de') ? 'lang/de' : 'lang/en';
+         document.body.classList.add('dark-mode');
+         document.body.dataset.theme = localStorage.getItem('dark-mode')
+         }
+         ScrollReveal().reveal('.animate', { delay: 60, interval: 30, reset: true, distance: '0.1px' });
+         ScrollReveal().reveal('.animateHero', { delay: 60, interval: 30, reset: true });
+         var consent = localStorage.getItem('cookie_consent');
+         if (consent === 'accepted' || consent === 'declined') {
+         document.getElementById('cookie-popup').style.display = 'none';
+         }
+         
+         function toggleDarkMode() {
+         document.body.classList.toggle('dark-mode');
+         if (document.body.classList.contains('dark-mode')) {
+         localStorage.setItem('dark-mode', 'dark');
+         } else {
+         localStorage.setItem('dark-mode', 'light');
+         }
+         document.body.dataset.theme = localStorage.getItem('dark-mode')
+         }
+         
+         let languageData = {};
+         
+         function fetchLanguageData(language) {
+         return fetch(`${language}.json`)
+         .then(response => {
+         if (!response.ok) {
+         throw new Error(`HTTP error! status: ${response.status}`);
+         }
+         return response.json();
+         })
+         .then(data => {
+         languageData = data;
+         return data;
+         })
+         .catch(error => console.error('Error fetching language file:', error));
+         }
+         
+         function updateContent(data) {
+         document.getElementById('logo').innerHTML = data.logo;
+         document.getElementById('privacyPolicy').innerHTML = data["privacy-policy"];
+         document.getElementById('landingMain').innerHTML = data.landingMain;
+         document.getElementById('landingBelowMain').innerHTML = data.landingBelowMain;
+         document.getElementById('landingStart').innerHTML = data.landingStart;
+         document.getElementById('landingStart2').innerHTML = data.landingStart;
+         document.getElementById('landingHowWorks').innerHTML = data.landingHowWorks;
+         document.getElementById('landingStepOne').innerHTML = data.landingStepOne;
+         document.getElementById('landingStepOneBelow').innerHTML = data.landingStepOneBelow;
+         document.getElementById('landingStepTwo').innerHTML = data.landingStepTwo;
+         document.getElementById('landingStepTwoBelow').innerHTML = data.landingStepTwoBelow;
+         document.getElementById('landingStepThree').innerHTML = data.landingStepThree;
+         document.getElementById('landingStepThreeBelow').innerHTML = data.landingStepThreeBelow;
+         document.getElementById('logo').innerHTML = data.logo;
+         document.getElementById('cookies').innerHTML = data.cookies;
+         document.getElementById('accept').textContent = data.accept;
+         document.getElementById('decline').textContent = data.decline;
+         document.getElementById('featuresHead').textContent = data.featuresHead;
+         document.getElementById('featuresHeader').textContent = data.featuresHeader;
+         document.getElementById('featuresText').textContent = data.featuresText;
+         document.getElementById('featuresHeaderTwo').textContent = data.featuresHeaderTwo;
+         document.getElementById('featuresTextTwo').textContent = data.featuresTextTwo;
+         document.getElementById('featuresHeaderThree').textContent = data.featuresHeaderThree;
+         document.getElementById('featuresTextThree').textContent = data.featuresTextThree;
+         document.getElementById('changeHead').textContent = data.changeHead;
+         document.getElementById('changeText').textContent = data.changeText;
+         document.getElementById('interested').textContent = data.interested + "🤭";
+         }
+         
+         var userLang = navigator.language || navigator.userLanguage;
+         
+         var lang = userLang.startsWith('de') ? 'lang/de' : 'lang/en';
+         
+         let preferredLang = localStorage.getItem('preferredLang');
+         
+         var langText = document.getElementById("language");
+         
+         if (!preferredLang) {
+         preferredLang = userLang;
+         localStorage.setItem('preferredLang', preferredLang);
+         } else {
+         lang = preferredLang.startsWith('de') ? 'lang/de' : 'lang/en';
             langText.innerHTML = preferredLang.startsWith('de') ? 'EN' : 'DE';
-		}
-
-		fetchLanguageData(lang).then(data => {
-			if (data) {
-				updateContent(data);
-			}
-		});
-		
-		window.onbeforeunload = function () {
-		  window.scrollTo(0, 0);
-		}
-
-		function changeLanguage() {
-			let preferredLang = localStorage.getItem('preferredLang')
-			if (preferredLang && preferredLang.startsWith("de")) {
-				localStorage.setItem('preferredLang', "en");
-			} else {
-				localStorage.setItem('preferredLang', "de");
-			}
-			window.location.reload();
-		}
-
-        function acceptCookies() {
+         }
+         
+         fetchLanguageData(lang).then(data => {
+         if (data) {
+         updateContent(data);
+         changeContent();
+         }
+         });
+         
+         function changeContent() {
+            
+         var landingMain = document.getElementById('landingMain');
+         
+         var text = landingMain.textContent;
+         
+            var words = text.split(' ');
+           
+            var firstWord = words.shift();
+            
+            landingMain.innerHTML = '<span class="gradientText">' + firstWord + '</span> ' + words.join(' ');
+         }
+         
+         window.onbeforeunload = function () {
+         window.scrollTo(0, 0);
+         }
+         
+         function changeLanguage() {
+         let preferredLang = localStorage.getItem('preferredLang')
+         if (preferredLang && preferredLang.startsWith("de")) {
+         localStorage.setItem('preferredLang', "en");
+         } else {
+         localStorage.setItem('preferredLang', "de");
+         }
+         window.location.reload();
+         }
+         
+         function acceptCookies() {
             localStorage.setItem('cookie_consent', 'accepted');
             document.getElementById('cookie-popup').style.display = 'none';
-        }
-
-        function declineCookies() {
+         }
+         
+         function declineCookies() {
             localStorage.setItem('cookie_consent', 'declined');
             document.getElementById('cookie-popup').style.display = 'none';
-        }
-		
-		document.getElementById("slider").addEventListener("input", function(e) {
-  const sliderPos = e.target.value;
-  // Update the width of the foreground image
-  document.querySelector('.foreground-img').style.width = `${sliderPos}%`;
-  // Update the position of the slider button
-  document.querySelector('.slider-button').style.left = `calc(${sliderPos}% - 18px)`;
-});
-
-document.getElementById("slider").addEventListener("change", function(e) {
-  const sliderPos = e.target.value;
-  // Update the width of the foreground image
-  document.querySelector('.foreground-img').style.width = `${sliderPos}%`;
-  // Update the position of the slider button
-  document.querySelector('.slider-button').style.left = `calc(${sliderPos}% - 18px)`;
-});
-
-    </script>
-</body>
+         }
+         
+         const slider = document.getElementById("slider");
+         const foregroundImg = document.querySelector('.foreground-img');
+         const sliderButton = document.querySelector('.slider-button');
+         
+         function updateSlider(e) {
+         const sliderPos = e.target.value;
+         foregroundImg.style.width = `${sliderPos}%`;
+         sliderButton.style.left = `calc(${sliderPos}% - 15px)`;
+         }
+         
+         slider.addEventListener("input", updateSlider);
+         slider.addEventListener("change", updateSlider);
+         
+         slider.addEventListener("touchstart", (e) => {
+         e.preventDefault();
+         });
+         
+         slider.addEventListener("touchmove", (e) => {
+         e.preventDefault();
+         const touch = e.touches[0];
+         const sliderWidth = slider.offsetWidth;
+         const sliderLeft = slider.getBoundingClientRect().left;
+         let touchPos = ((touch.clientX - sliderLeft) / sliderWidth) * 100;
+         
+         if (touchPos < 0) touchPos = 0;
+         if (touchPos > 100) touchPos = 100;
+         
+         slider.value = touchPos;
+         updateSlider({ target: slider });
+         });
+         
+         slider.addEventListener("touchend", (e) => {
+         e.preventDefault();
+         });
+         
+      </script>
+   </body>
 </html>
