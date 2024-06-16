@@ -11,9 +11,10 @@
       <link rel="preload" href="images/animation.lottie" as="fetch" crossorigin="anonymous">
       <link rel="preload" href="lang/de.json" as="fetch" crossorigin="anonymous">
       <link rel="preload" href="lang/en.json" as="fetch" crossorigin="anonymous">
-      <title>BWconomy</title>
+	  <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+      <title>Conomy</title>
       <meta name="description"
-         content="Discover the power of BWconomy, your premier partner in navigating the digital economy landscape. With BWconomy, gain access to cutting-edge tools that allow you to seamlessly add websites and conduct comprehensive scans, empowering you to make informed decisions and stay ahead of the competition. Maximize your efficiency and profitability with our innovative solutions, designed to optimize your online presence and drive growth in today's dynamic economic environment. Trust BWconomy to be your guiding light in the complex world of digital business, providing unparalleled insights and support every step of the way.">
+         content="Discover the power of Conomy, your premier partner in navigating the digital economy landscape. With Conomy, gain access to cutting-edge tools that allow you to seamlessly add websites and conduct comprehensive scans, empowering you to make informed decisions and stay ahead of the competition. Maximize your efficiency and profitability with our innovative solutions, designed to optimize your online presence and drive growth in today's dynamic economic environment. Trust Conomy to be your guiding light in the complex world of digital business, providing unparalleled insights and support every step of the way.">
       <style>
          @font-face {
          font-family: 'Poppins';
@@ -256,14 +257,43 @@
          font-size: 40px;
          }
          .steps {
-         text-align: center;
-         }
+    display: grid;
+    grid-template-columns: repeat(1fr);
+    gap: 30px;
+    margin-top: 30px;
+}
          .step {
-         transition: all 0.3s;
-         }
-         .step h3 {
-         font-size: 24px;
-         }
+    border-radius: 10px;
+    padding: 20px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.step:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+}
+
+.step h3 {
+    font-size: 20px;
+    margin-bottom: 15px;
+    color: #333;
+}
+
+.step p {
+    font-size: 16px;
+    line-height: 1.6;
+    color: #777;
+}
+		 .how-it-works {
+			padding: 50px 0;
+		}
+		.how-it-works .container {
+    width: 90%;
+    max-width: 1200px;
+    margin: 0 auto;
+    text-align: center;
+}
          #privacy {
          text-align: right;
          margin: 10px;
@@ -476,6 +506,10 @@
          -webkit-text-fill-color: transparent;
          font-size: 44px;
          }
+		 
+		 .small {
+			font-size: 36px;
+		 }
          @media (max-width: 768px) {
          .container {
          flex-direction: column;
@@ -533,7 +567,7 @@
          }
          }
       </style>
-      <script src="https://unpkg.com/scrollreveal"></script>
+      <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
       <script src="https://unpkg.com/@dotlottie/player-component@latest/dist/dotlottie-player.mjs" type="module"></script> 
    </head>
    <body>
@@ -545,7 +579,7 @@
       </div>
       <header>
          <div class="language"><span onclick="changeLanguage()" id="language">EN</span></div>
-         <div class="logo"><span id="logo" onclick="window.location.reload()">BWconomy</span></div>
+         <div class="logo"><span id="logo" onclick="window.location.reload()">Conomy</span></div>
          <div id="container">
             <span class="mode" id="darkmode" role="button" tabIndex="0" onClick="toggleDarkMode()"
                aria-label="darkmode button">
@@ -555,7 +589,7 @@
             </span>
          </div>
       </header>
-      <section id="home" class="hero animateHero">
+      <section id="home" class="hero">
          <div class="container">
             <div class="hero-text tilt-in-fwd-tl">
                <h1 id="landingMain"></h1>
@@ -567,17 +601,17 @@
       </section>
       <section id="how-it-works" class="how-it-works">
          <div class="container second">
-            <h2 class="animate" id="landingHowWorks"></h2>
+            <h2 data-aos="fade-up" id="landingHowWorks"></h2>
             <div class="steps">
-               <div class="step animate">
+               <div data-aos="fade-up" class="step">
                   <h3 id="landingStepOne"></h3>
                   <p id="landingStepOneBelow"></p>
                </div>
-               <div class="step animate">
+               <div data-aos="fade-up" class="step">
                   <h3 id="landingStepTwo"></h3>
                   <p id="landingStepTwoBelow"></p>
                </div>
-               <div class="step animate">
+               <div data-aos="fade-up" class="step">
                   <h3 id="landingStepThree"></h3>
                   <p id="landingStepThreeBelow"></p>
                </div>
@@ -585,7 +619,7 @@
          </div>
       </section>
       <section class="comp">
-         <div class="container animate">
+         <div data-aos="fade-up" class="container">
             <div>
                <h2 id="changeHead"></h2>
                <p id="changeText"></p>
@@ -600,22 +634,22 @@
       </section>
       <section class="features-section" id="features">
          <div class="container">
-            <h2 id="featuresHead" class="animate"></h2>
-            <div class="feature animate">
+            <h2 id="featuresHead" data-aos="fade-up"></h2>
+            <div data-aos="fade-up" class="feature">
                <h3 id="featuresHeader"></h3>
                <p id="featuresText"></p>
             </div>
-            <div class="feature animate">
+            <div data-aos="fade-up" class="feature">
                <h3 id="featuresHeaderTwo"></h3>
                <p id="featuresTextTwo"></p>
             </div>
-            <div class="feature animate">
+            <div data-aos="fade-up" class="feature">
                <h3 id="featuresHeaderThree"></h3>
                <p id="featuresTextThree"></p>
             </div>
          </div>
       </section>
-      <section class="got-interested-section animate">
+      <section data-aos="fade-right" class="got-interested-section">
          <h2 id="interested"></h2>
          <a id="landingStart2" onclick="window.location.href = 'app'" class="btn-cta"></a>
          <img draggable="false" src="images/girl.webp" alt="girl">
@@ -631,8 +665,7 @@
          document.body.classList.add('dark-mode');
          document.body.dataset.theme = localStorage.getItem('dark-mode')
          }
-         ScrollReveal().reveal('.animate', { delay: 60, interval: 30, reset: true, distance: '0.1px' });
-         ScrollReveal().reveal('.animateHero', { delay: 60, interval: 30, reset: true });
+         AOS.init();
          var consent = localStorage.getItem('cookie_consent');
          if (consent === 'accepted' || consent === 'declined') {
          document.getElementById('cookie-popup').style.display = 'none';
@@ -692,7 +725,7 @@
          document.getElementById('featuresTextThree').textContent = data.featuresTextThree;
          document.getElementById('changeHead').textContent = data.changeHead;
          document.getElementById('changeText').textContent = data.changeText;
-         document.getElementById('interested').textContent = data.interested + "🤭";
+         document.getElementById('interested').innerHTML = data.interested + " 🤭";
          }
          
          var userLang = navigator.language || navigator.userLanguage;
@@ -720,15 +753,63 @@
          
          function changeContent() {
             
-         var landingMain = document.getElementById('landingMain');
+			var landingMain = document.getElementById('landingMain');
          
-         var text = landingMain.textContent;
-         
+			var text = landingMain.textContent;
+			
             var words = text.split(' ');
            
             var firstWord = words.shift();
             
             landingMain.innerHTML = '<span class="gradientText">' + firstWord + '</span> ' + words.join(' ');
+			
+			var landingHowWorks = document.getElementById('landingHowWorks');
+			
+			var text2 = landingHowWorks.textContent;
+
+			var words2 = text2.split(' ');
+
+			var index = words2.findIndex(word => word.toLowerCase().startsWith('ana'));
+
+			if (index !== -1) {
+				words2[index] = '<span class="gradientText small">' + words2[index] + '</span>';
+			}
+
+			landingHowWorks.innerHTML = words2.join(' ');
+
+			var featuresHead = document.getElementById('featuresHead');
+			
+			var text3 = featuresHead.textContent;
+
+			var words3 = text3.split(' ');
+
+			var index = words3.findIndex(word => word.toLowerCase().startsWith('f'));
+
+			if (index !== -1) {
+				words3[index] = '<span class="gradientText small">' + words3[index] + '</span>';
+			}
+
+			featuresHead.innerHTML = words3.join(' ');
+			
+			var changeHead = document.getElementById('changeHead');
+			
+			var text4 = changeHead.textContent;
+
+			var words4 = text4.split(' ');
+
+			var index = words4.findIndex(word => word.toLowerCase().startsWith('company') || word.toLowerCase().startsWith('unternehmen'));
+
+			if (index !== -1) {
+				words4[index] = '<span class="gradientText small">' + words4[index] + '</span>';
+			}
+
+			changeHead.innerHTML = words4.join(' ');
+			
+			
+			
+			console.log(index);
+			
+			
          }
          
          window.onbeforeunload = function () {
