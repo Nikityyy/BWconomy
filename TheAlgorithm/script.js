@@ -1,6 +1,6 @@
 function analyzation(content, url) {
-	// if(window.location.href.includes("Conomy")) {
-	if (window.location.href.includes("127")) {
+	if(window.location.href.includes("Conomy")) {
+	// if (window.location.href.includes("127")) {
 		var result = document.getElementById("result");
 		var urlContainer = document.getElementById("urlContainer");
 		var ps = document.getElementById("fourPs");
