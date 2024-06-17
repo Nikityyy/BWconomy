@@ -868,7 +868,7 @@
       <img draggable="false" src="images/girl.webp" alt="girl">
       <img draggable="false" class="hand" src="images/girl-hand.webp" alt="girl">
    </section>
-   <p id="privacy"><a id="privacyPolicy" onclick="window.location.href = 'privacy-policy'"></a></p>
+   <p id="privacy"><a id="privacyPolicy2" onclick="window.location.href = 'privacy-policy'"></a></p>
    <script>
       if (localStorage.getItem('dark-mode') === 'dark') {
          document.body.classList.add('dark-mode');
@@ -914,6 +914,7 @@
       function updateContent(data) {
          document.getElementById('logo').innerHTML = data.logo;
          document.getElementById('privacyPolicy').innerHTML = data["privacy-policy"];
+         document.getElementById('privacyPolicy2').innerHTML = data["privacy-policy"];
          document.getElementById('landingMain').innerHTML = data.landingMain;
          document.getElementById('landingBelowMain').innerHTML = data.landingBelowMain;
          document.getElementById('landingStart').innerHTML = data.landingStart;
