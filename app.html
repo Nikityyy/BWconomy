@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="de">
 
 <head>
 	<meta charset="UTF-8">
@@ -1312,6 +1312,26 @@
 			}
 		});
 
+		function incrementCounter() {
+			fetch('https://conomy.glitch.me/increment', {
+				method: 'POST'
+			})
+				.catch(error => console.error('Error incrementing counter:', error));
+		}
+
+		function saveWebsite(newUrl) {
+			fetch('http://conomy.glitch.me/url', {
+				method: 'POST',
+				headers: {
+					'Content-Type': 'application/json'
+				},
+				body: JSON.stringify({ text: newUrl })
+			})
+				.catch(error => {
+					console.error('There was a problem with the fetch operation:', error);
+				});
+		}
+
 		async function analyzeURL() {
 			let newUrl = window.location.protocol + "//" + window.location.host + window.location.pathname;
 			window.history.replaceState({}, document.title, newUrl);
@@ -1354,6 +1374,19 @@
 				var xhr = new XMLHttpRequest();
 				xhr.open('GET', proxyUrl + url);
 
+				var editUrl = url.replace(/\/+$/, '');
+				let parts = editUrl.split('/');
+				if (parts.length > 3) {
+					parts.pop();
+				}
+				let newUrl = parts.join('/');
+				if (!newUrl.endsWith('/')) {
+					newUrl += '/';
+				}
+
+				incrementCounter();
+				saveWebsite(newUrl);
+
 				// IP
 				var urlIP = url.replace(/(^\w+:|^)\/\//, '');
 				urlIP = urlIP.split('/')[0];
@@ -1378,7 +1411,6 @@
 						if (contentType && contentType.includes('text/html')) {
 							var endTime = Date.now();
 							timeTaken = endTime - startTime;
-							// console.info('Fetching the website took ' + timeTaken + ' milliseconds');
 							analyzation(xhr.responseText, url);
 						} else if (xhr.responseText == "error code: 1003") {
 							alert(`${languageData["websiteError"]}`);
